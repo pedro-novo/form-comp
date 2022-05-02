@@ -3,9 +3,9 @@ import FormField from "./FormField";
 
 const Form = () => {
 	return (
-		<div>
-			<FormField />
-		</div>
+		<form className='pt-40'>
+			<FormField inputType='text' />
+		</form>
 	);
 };
 

@@ -3,12 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = [
 	{
 		id: "1",
-		Name: "Pedro Novo",
+		firstName: "Pedro",
+		lastName: "Teixeira",
 		hobbies: ["codding", "gaming"],
 	},
 	{
 		id: "2",
-		Name: "Joao Novo",
+		firstName: "Joao",
+		lastName: "Novo",
 		hobbies: ["reading", "running"],
 	},
 ];
