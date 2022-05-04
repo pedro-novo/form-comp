@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useClientContext } from "./context/ClientCreationContext";
 
 const FormField = ({ type, title, fieldName, checkboxFields }) => {
-	const { temporaryClientFields, temporaryClientFieldsSet, errorFields } = useClientContext();
+	const { temporaryClientFields, temporaryClientFieldsSet, error } = useClientContext();
 
 	const handleTextChange = (e) => {
 		return temporaryClientFieldsSet({ ...temporaryClientFields, [fieldName]: e.target.value });
@@ -15,7 +15,7 @@ const FormField = ({ type, title, fieldName, checkboxFields }) => {
 			}
 			return temporaryClientFieldsSet(temporaryClientFields.hobbies.filter((hob) => hob !== hobby));
 		}
-		temporaryClientFieldsSet({ ...temporaryClientFields, hobbies: [hobby] });
+		return temporaryClientFieldsSet({ ...temporaryClientFields, hobbies: [hobby] });
 	};
 
 	switch (type) {
@@ -24,7 +24,7 @@ const FormField = ({ type, title, fieldName, checkboxFields }) => {
 				<div>
 					<label htmlFor=''>{title}</label>
 					<input className='ml-2 p-1 textInput' type='text' name={fieldName} placeholder={title} onChange={handleTextChange} />
-					<h4>You must enter the {title}</h4>
+					<h4 className={error.includes(fieldName) ? "hidden" : "errorTextDisplay"}>You must enter the {title}</h4>
 				</div>
 			);
 		case "checkbox":
