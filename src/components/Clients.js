@@ -10,13 +10,16 @@ const Clients = () => {
 			{clients.map((client) => (
 				<div key={client.id} className='mt-6 ml-2'>
 					<h1>
-						<span className='mt-2 text-cyan-600 text-lg font-semibold'>First Name:</span> {client.firstName}
+						<span className='mt-2 text-cyan-600 text-lg font-semibold'>First Name:</span> {client?.firstName}
 					</h1>
 					<h4>
-						<span className='mt-2 text-cyan-600 text-lg font-semibold'>Last Name:</span> {client.lastName}
+						<span className='mt-2 text-cyan-600 text-lg font-semibold'>Last Name:</span> {client?.lastName}
+					</h4>
+					<h4>
+						<span className='mt-2 text-cyan-600 text-lg font-semibold'>Age:</span> {client?.age}
 					</h4>
 					<span className='mt-2 text-cyan-600 text-lg font-semibold'>Hobbies:</span>
-					{client.hobbies.map((hobby) => (
+					{client?.hobbies.map((hobby) => (
 						<p key={hobby}>{hobby}</p>
 					))}
 				</div>

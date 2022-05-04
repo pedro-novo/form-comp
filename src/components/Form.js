@@ -6,13 +6,19 @@ import { nanoid } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 
 const Form = ({ children }) => {
-	const { temporaryClientFields, temporaryClientFieldsSet } = useClientContext();
+	const { temporaryClientFields, temporaryClientFieldsSet, errorFields, errorFieldsSet } = useClientContext();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	const validation = () => {
+		Object.entries(temporaryClientFields).map(([key, value]) => {
+			return errorFieldsSet(key);
+		});
+	};
+
 	const handleSubmit = () => {
-		if (temporaryClientFields.firstName && temporaryClientFields.lastName && temporaryClientFields.age && temporaryClientFields.hobbies) {
-			console.log("ok");
+		validation();
+		if (!errorFields.length) {
 			dispatch(addClient({ ...temporaryClientFields, id: nanoid() }));
 			temporaryClientFieldsSet({});
 			navigate("/");
