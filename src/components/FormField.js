@@ -1,18 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useClientContext } from "./context/ClientCreationContext";
 
-const FormField = ({ inputType }) => {
-	const [error, setError] = useState(true);
+const FormField = ({ type, title, fieldName, checkboxFields }) => {
+	const [selectedFields, selectedFieldsSet] = useState({});
+	const { temporaryClientFields, temporaryClientFieldsSet } = useClientContext();
 
-	const inputFieldClass = `border-2 transition duration-500 placeholder-red-400 focus:placeholder-transparent border-red-400 w-4/12 py-2 text-center text-red-400 bg-transparent rounded-md focus:outline-none"`;
+	const handleTextChange = (e) => {
+		temporaryClientFieldsSet({ ...temporaryClientFields, [fieldName]: e.target.value });
+	};
 
-	return (
-		<input
-			className='border-2 transition duration-500 placeholder-red-400 focus:placeholder-transparent border-red-400 w-4/12 py-2 text-center text-red-400 bg-transparent rounded-md focus:outline-none'
-			type={inputType}
-			name='hello'
-			placeholder='First Name'
-		/>
-	);
+	const handleCheckboxChange = async (hobby) => {
+		if (!selectedFields.hasOwnProperty(hobby)) {
+			await selectedFieldsSet({ ...selectedFields, [hobby]: true });
+		} else {
+			await selectedFieldsSet({ ...selectedFields, [hobby]: !hobby });
+		}
+		temporaryClientFieldsSet({ ...temporaryClientFields, hobbies: selectedFields });
+	};
+
+	useEffect(() => {
+		console.log(selectedFields);
+	}, [selectedFields]);
+
+	switch (type) {
+		case "text":
+			return (
+				<div>
+					<label htmlFor=''>{title}</label>
+					<input className='ml-2 p-1 border-2 border-cyan-200 rounded-md bg-cyan-100 text-white' type='text' name={fieldName} placeholder={title} onChange={handleTextChange} />
+				</div>
+			);
+		case "checkbox":
+			return (
+				<div>
+					<label htmlFor=''>{title}</label>
+					{checkboxFields.map((field) => (
+						<div key={field}>
+							<input
+								className='ml-2 p-1 border-2 border-cyan-200 rounded-md bg-cyan-100 text-white'
+								type='checkbox'
+								name={field}
+								onClick={() => {
+									handleCheckboxChange(field);
+								}}
+							/>
+							{field}
+						</div>
+					))}
+				</div>
+			);
+		default:
+			break;
+	}
 };
 
 export default FormField;

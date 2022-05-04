@@ -1,24 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react-dom/test-utils";
 
 const initialState = [
 	{
-		id: "1",
+		id: "dwwqddwq",
 		firstName: "Pedro",
 		lastName: "Teixeira",
-		hobbies: ["codding", "gaming"],
+		age: "28",
+		hobbies: { codding: true, gaming: true },
 	},
 	{
-		id: "2",
+		id: "dwqwqwqdqdqdfger",
 		firstName: "Joao",
 		lastName: "Novo",
-		hobbies: ["reading", "running"],
+		age: "22",
+		hobbies: { reading: true, sports: true },
 	},
 ];
 
 const clientsSlice = createSlice({
 	name: "clients",
 	initialState,
-	reducers: {},
+	reducers: {
+		addClient: (state, action) => {
+			state.push(action.payload);
+		},
+	},
 });
 
 export default clientsSlice.reducer;

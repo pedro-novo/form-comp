@@ -1,10 +1,18 @@
 import React from "react";
 import FormField from "./FormField";
+import { formPropertiesNames } from "../utils/formPropertiesNames";
+import FormCheckboxField from "./FormCheckboxField";
+import { hobbies } from "../utils/hobbies";
 
-const Form = () => {
+const handleSubmit = () => {};
+
+const Form = ({ children }) => {
 	return (
 		<form className='pt-40'>
-			<FormField inputType='text' />
+			{children}
+			<button type='button' className='btn' onSubmit={() => handleSubmit()}>
+				Submit
+			</button>
 		</form>
 	);
 };
