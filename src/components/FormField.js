@@ -2,24 +2,24 @@ import React, { useState, useEffect } from "react";
 import { useClientContext } from "./context/ClientCreationContext";
 
 const FormField = ({ type, title, fieldName, checkboxFields }) => {
-	const [selectedFields, selectedFieldsSet] = useState({});
+	const [selectedFields, selectedFieldsSet] = useState([]);
 	const { temporaryClientFields, temporaryClientFieldsSet } = useClientContext();
 
 	const handleTextChange = (e) => {
 		temporaryClientFieldsSet({ ...temporaryClientFields, [fieldName]: e.target.value });
 	};
 
-	const handleCheckboxChange = async (hobby) => {
-		if (!selectedFields.hasOwnProperty(hobby)) {
-			await selectedFieldsSet({ ...selectedFields, [hobby]: true });
-		} else {
-			await selectedFieldsSet({ ...selectedFields, [hobby]: !hobby });
+	const handleCheckboxChange = (hobby) => {
+		if (!selectedFields.includes(hobby)) {
+			console.log("hobby: ", hobby);
+			return selectedFieldsSet((prevState) => [...prevState, hobby]);
 		}
-		temporaryClientFieldsSet({ ...temporaryClientFields, hobbies: selectedFields });
+		selectedFieldsSet(selectedFields.filter((hob) => hob !== hobby));
 	};
 
 	useEffect(() => {
-		console.log(selectedFields);
+		temporaryClientFieldsSet({ ...temporaryClientFields, hobbies: selectedFields });
+		console.log(temporaryClientFields);
 	}, [selectedFields]);
 
 	switch (type) {
