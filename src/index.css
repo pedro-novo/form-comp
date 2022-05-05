@@ -3,17 +3,29 @@
 @tailwind utilities;
 
 .btn {
-	@apply px-2 py-1 ml-2 mt-2 rounded-lg bg-violet-500 text-white font-semibold focus:outline-none hover:border hover:border-violet-500 hover:text-violet-500 hover:bg-white;
+	@apply py-4 ml-2 mt-4 rounded-lg bg-violet-500 text-white font-semibold focus:outline-none hover:border hover:border-violet-500 hover:text-violet-500 hover:bg-white;
 }
 
 .textInput {
-	@apply border-2 border-cyan-600 rounded-md bg-cyan-200 text-black focus:outline-none focus:border-cyan-400 focus:bg-gray-300;
+	@apply mt-2 p-2 bg-white text-zinc-800 rounded-xl shadow-xl;
 }
 
 .textInputError {
-	@apply border-2 border-red-600 rounded-md bg-red-200 text-black focus:outline-none focus:border-red-400 focus:bg-gray-300;
+	@apply mt-2 p-2 bg-red-200 border border-red-700 text-zinc-800 rounded-xl shadow-xl;
+}
+
+.selectInput {
+	@apply w-1/3 mt-4 p-2 bg-white rounded-xl shadow-xl;
+}
+
+.selectInputError {
+	@apply w-1/3 mt-4 p-2 bg-red-200 border border-red-700 rounded-xl shadow-xl;
 }
 
 .errorTextDisplay {
 	@apply text-red-600 font-semibold;
+}
+
+.label {
+	@apply font-semibold text-zinc-800 text-xl;
 }

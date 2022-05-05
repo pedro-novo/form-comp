@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { validation } from "../utils/validation";
 
 const Form = ({ children }) => {
-	const { temporaryClientFields, temporaryClientFieldsSet, clientFieldsFound, clientFieldsFoundSet } = useClientContext();
+	const { temporaryClientFields, temporaryClientFieldsSet, clientFieldsFound, clientFieldsFoundSet, clientErrorsFieldFound, clientErrorsFieldFoundSet } = useClientContext();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -19,20 +19,32 @@ const Form = ({ children }) => {
 			temporaryClientFieldsSet({});
 			navigate("/");
 		}
+		if (!fulffilledFields.length) {
+			clientErrorsFieldFoundSet({ ...clientErrorsFieldFound, error: true });
+		}
 		clientFieldsFoundSet(fulffilledFields);
+		clientErrorsFieldFoundSet({ ...clientErrorsFieldFound, fields: fulffilledFields });
 	});
 
 	useEffect(() => {
 		console.log("clientFields: ", clientFieldsFound);
+		console.log("clientErrorsFieldFound: ", clientErrorsFieldFound);
 	}, [clientFieldsFound]);
 
 	return (
-		<form className='pt-40'>
-			{children}
-			<button type='button' className='btn' onClick={handleSubmit}>
-				Submit
-			</button>
-		</form>
+		<div className='w-1/3 p-6 bg-gray-200 rounded-lg shadow-lg'>
+			<h1 className='mt-2 text-center uppercase text-teal-600 text-4xl font-extrabold tracking-wider'>Client Form</h1>
+			<p className='mt-2 text-center text-gray-500 text-lg font-semibold'>Fill in all fields berfore Submitting.</p>
+
+			<form className='mt-6'>
+				<div className='flex flex-col'>
+					{children}
+					<button type='button' className='btn' onClick={handleSubmit}>
+						Submit
+					</button>
+				</div>
+			</form>
+		</div>
 	);
 };
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useClientContext } from "./context/ClientCreationContext";
 import { doesItInclude } from "../utils/doesItInclude";
 
-const FormField = ({ type, title, fieldName, checkboxFields }) => {
-	const { temporaryClientFields, temporaryClientFieldsSet, clientFieldsFound } = useClientContext();
+const FormField = ({ type, title, fieldName, checkboxFields, colSpan }) => {
+	const { temporaryClientFields, temporaryClientFieldsSet, clientFieldsFound, clientFieldsFoundSet } = useClientContext();
 
 	const handleTextChange = (e) => {
 		return temporaryClientFieldsSet({ ...temporaryClientFields, [fieldName]: e.target.value });
@@ -20,26 +20,27 @@ const FormField = ({ type, title, fieldName, checkboxFields }) => {
 	};
 
 	useEffect(() => {
-		console.log(doesItInclude(fieldName, clientFieldsFound));
+		clientFieldsFoundSet([]);
+		temporaryClientFieldsSet({});
 	}, []);
 
 	switch (type) {
 		case "text":
 			return (
-				<div>
-					<label htmlFor=''>{title}</label>
-					<input className={doesItInclude(fieldName, clientFieldsFound) ? "textInput" : "textInputError"} type='text' name={fieldName} placeholder={title} onChange={handleTextChange} />
+				<div className={doesItInclude(fieldName, clientFieldsFound) ? "textInput" : "textInputError"}>
+					<label className='block text-sm font-semibold'>{title}</label>
+					<input className='bg-transparent focus:outline-none' type='text' name={fieldName} placeholder={title} onChange={handleTextChange} />
 					<h4 className={doesItInclude(fieldName, clientFieldsFound) ? "hidden" : "errorTextDisplay"}>You must enter the {title}</h4>
 				</div>
 			);
 		case "checkbox":
 			return (
-				<div>
-					<label htmlFor=''>{title}</label>
+				<div className={doesItInclude(fieldName, clientFieldsFound) ? "selectInput" : "selectInputError"}>
+					<label className='block text-sm font-semibold'>{title}:</label>
 					{checkboxFields.map((field) => (
 						<div key={field}>
 							<input
-								className='ml-2 p-1 border-2 border-cyan-200 rounded-md bg-cyan-100 text-white'
+								className='ml-2 mr-2 p-1 border-2 border-cyan-200 rounded-md bg-cyan-100 text-white'
 								type='checkbox'
 								name={field}
 								onClick={() => {
