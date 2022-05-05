@@ -3,15 +3,15 @@ import React, { useState, createContext, useContext } from "react";
 const ClientContext = createContext({
 	temporaryClientFields: {},
 	temporaryClientFieldsSet: () => undefined,
-	error: [],
-	errorSet: () => undefined,
+	clientFieldsFound: [],
+	clientFieldsFoundSet: () => undefined,
 });
 
 export const ClientCreationContextProvider = ({ children }) => {
 	const [temporaryClientFields, temporaryClientFieldsSet] = useState({});
-	const [error, errorSet] = useState([]);
+	const [clientFieldsFound, clientFieldsFoundSet] = useState([]);
 
-	return <ClientContext.Provider value={{ temporaryClientFields, error, temporaryClientFieldsSet, errorSet }}>{children}</ClientContext.Provider>;
+	return <ClientContext.Provider value={{ temporaryClientFields, temporaryClientFieldsSet, clientFieldsFound, clientFieldsFoundSet }}>{children}</ClientContext.Provider>;
 };
 
 export const useClientContext = () => useContext(ClientContext);

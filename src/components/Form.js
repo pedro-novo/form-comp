@@ -1,35 +1,30 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { useClientContext } from "./context/ClientCreationContext";
 import { useDispatch } from "react-redux";
 import { addClient } from "../features/clients/clientsSlice";
 import { nanoid } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
+import { validation } from "../utils/validation";
 
 const Form = ({ children }) => {
-	const { temporaryClientFields, error, temporaryClientFieldsSet, errorSet } = useClientContext();
+	const { temporaryClientFields, temporaryClientFieldsSet, clientFieldsFound, clientFieldsFoundSet } = useClientContext();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const validation = () => {
-		let errorArray = [];
-		Object.entries(temporaryClientFields).map(([key, value]) => {
-			errorArray.push(key);
-		});
-		return errorArray;
-	};
+	const handleSubmit = useCallback(() => {
+		const fulffilledFields = validation(temporaryClientFields);
 
-	const handleSubmit = () => {
-		errorSet([]);
-		const isError = validation();
-		error.push(isError);
-		console.log(isError);
-		console.log(error);
-		if (isError.length === 4) {
+		if (fulffilledFields.length === 4) {
 			dispatch(addClient({ ...temporaryClientFields, id: nanoid() }));
 			temporaryClientFieldsSet({});
 			navigate("/");
 		}
-	};
+		clientFieldsFoundSet(fulffilledFields);
+	});
+
+	useEffect(() => {
+		console.log("clientFields: ", clientFieldsFound);
+	}, [clientFieldsFound]);
 
 	return (
 		<form className='pt-40'>

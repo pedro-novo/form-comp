@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useClientContext } from "./context/ClientCreationContext";
+import { doesItInclude } from "../utils/doesItInclude";
 
 const FormField = ({ type, title, fieldName, checkboxFields }) => {
-	const { temporaryClientFields, temporaryClientFieldsSet, error } = useClientContext();
+	const { temporaryClientFields, temporaryClientFieldsSet, clientFieldsFound } = useClientContext();
 
 	const handleTextChange = (e) => {
 		return temporaryClientFieldsSet({ ...temporaryClientFields, [fieldName]: e.target.value });
@@ -18,13 +19,17 @@ const FormField = ({ type, title, fieldName, checkboxFields }) => {
 		return temporaryClientFieldsSet({ ...temporaryClientFields, hobbies: [hobby] });
 	};
 
+	useEffect(() => {
+		console.log(doesItInclude(fieldName, clientFieldsFound));
+	}, []);
+
 	switch (type) {
 		case "text":
 			return (
 				<div>
 					<label htmlFor=''>{title}</label>
-					<input className='ml-2 p-1 textInput' type='text' name={fieldName} placeholder={title} onChange={handleTextChange} />
-					<h4 className={error.includes(fieldName) ? "hidden" : "errorTextDisplay"}>You must enter the {title}</h4>
+					<input className={doesItInclude(fieldName, clientFieldsFound) ? "textInput" : "textInputError"} type='text' name={fieldName} placeholder={title} onChange={handleTextChange} />
+					<h4 className={doesItInclude(fieldName, clientFieldsFound) ? "hidden" : "errorTextDisplay"}>You must enter the {title}</h4>
 				</div>
 			);
 		case "checkbox":
@@ -44,7 +49,7 @@ const FormField = ({ type, title, fieldName, checkboxFields }) => {
 							{field}
 						</div>
 					))}
-					<h4>You must enter the {title}</h4>
+					<h4 className={doesItInclude(fieldName, clientFieldsFound) ? "hidden" : "errorTextDisplay"}>You must enter the {title}</h4>
 				</div>
 			);
 		default:
