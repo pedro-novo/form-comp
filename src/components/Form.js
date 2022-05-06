@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useClientContext } from "./context/ClientCreationContext";
 import { useDispatch } from "react-redux";
 import { addClient } from "../features/clients/clientsSlice";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { validation } from "../utils/validation";
 
 const Form = ({ children }) => {
-	const { temporaryClientFields, temporaryClientFieldsSet, clientFieldsFound, clientFieldsFoundSet, clientErrorsFieldFound, clientErrorsFieldFoundSet } = useClientContext();
+	const { temporaryClientFields, temporaryClientFieldsSet, clientFieldsFoundSet } = useClientContext();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -19,17 +19,8 @@ const Form = ({ children }) => {
 			temporaryClientFieldsSet({});
 			navigate("/");
 		}
-		if (!fulffilledFields.length) {
-			clientErrorsFieldFoundSet({ ...clientErrorsFieldFound, error: true });
-		}
 		clientFieldsFoundSet(fulffilledFields);
-		clientErrorsFieldFoundSet({ ...clientErrorsFieldFound, fields: fulffilledFields });
 	});
-
-	useEffect(() => {
-		console.log("clientFields: ", clientFieldsFound);
-		console.log("clientErrorsFieldFound: ", clientErrorsFieldFound);
-	}, [clientFieldsFound]);
 
 	return (
 		<div className='w-1/3 p-6 bg-gray-200 rounded-lg shadow-lg'>

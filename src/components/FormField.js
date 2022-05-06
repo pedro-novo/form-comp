@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useClientContext } from "./context/ClientCreationContext";
 import { doesItInclude } from "../utils/doesItInclude";
 
